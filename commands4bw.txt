@@ -1,0 +1,16 @@
+#Ran on interactive node.
+
+module load samtools/1.10
+module load bedtools2/2.29.2
+module load ucsc-tools/v393
+
+ref="../ref/dmel-all-chromosome-r6.13.fasta"
+mybam="contig_alignment.RG.bam"
+cat $ref.fai | head -n 7 | awk '{printf("%s\t0\t%s\n",$1,$2)}' > major.bed
+samtools view -b -L major.bed $mybam > $mybam.maj
+Nreads=`samtools view -c -F 4 $mybam.maj`
+Scale=`echo "1.0/($Nreads/1000000)" | bc -l`
+samtools view -b $mybam.maj | genomeCoverageBed -bg -scale $Scale -ibam - > $mybam.coverage
+bedSort $mybam.coverage $mybam.sort.coverage
+bedGraphToBigWig $mybam.sort.coverage $ref.fai $mybam.bw
+
