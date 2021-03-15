@@ -1,5 +1,7 @@
 # Final project
 
+[Home](https://github.com/Javelarb/Advanced_Informatics_2021)
+
 In my lab, we sequence DNA metagenomes to study the microbiome.  
 
 Often times, when we are interested in the genome of a specific organism we have to assemble the metagenomes.  
